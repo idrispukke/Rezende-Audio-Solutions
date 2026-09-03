@@ -1,0 +1,2 @@
+-- seed.sql
+-- Dados iniciais para o banco de dados do Rezende Audio Solutions

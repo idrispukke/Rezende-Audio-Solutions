@@ -1,0 +1,4 @@
+# Dependências do backend (Python)
+# fastapi
+# uvicorn
+# supabase

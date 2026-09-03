@@ -1,0 +1,21 @@
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/build/
+.env
+.env.local
+
+# Python / Backend
+__pycache__/
+*.pyc
+.venv/
+venv/
+backend/.env
+
+# Supabase
+.supabase/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
