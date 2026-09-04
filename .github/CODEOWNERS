@@ -1,5 +1,22 @@
-# DevOps: infraestrutura, CI/CD e ambiente de desenvolvimento
-/.github/            @idrispukke
-/.devcontainer/      @idrispukke
-/supabase/           @idrispukke
-/backend/Dockerfile  @idrispukke
+# ==========================================
+# CODEOWNERS - Rezende Audio Solutions
+# Espelha a divisao de areas do repo Afya-Grill (mesma equipe)
+# Ultima regra que casa e a que vale.
+# ==========================================
+
+# Backend / API Python
+/backend/ @Wendelljeronimo @Kaua-Alves @joaodorast
+
+# Frontend / React + TypeScript
+/frontend/ @joaodorast @ibsonvital
+
+# Banco de dados (migrations, seed, RLS)
+/supabase/ @jmrzd @idrispukke
+
+# Documentacao
+/README.md @SirMaath
+
+# Infra / CI-CD / ambiente de dev (DevOps) - sobrepoe as regras acima
+/.github/ @idrispukke @jmrzd
+/.devcontainer/ @idrispukke
+/backend/Dockerfile @idrispukke
