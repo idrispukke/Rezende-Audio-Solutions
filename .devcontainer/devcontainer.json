@@ -1,0 +1,48 @@
+{
+  "name": "Rezende Audio Solutions",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-github-actions",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/backend/.venv/bin/python"
+      }
+    }
+  },
+  "forwardPorts": [
+    5173,
+    8000
+  ],
+  "portsAttributes": {
+    "5173": {
+      "label": "Frontend (Vite)"
+    },
+    "8000": {
+      "label": "Backend (FastAPI)"
+    }
+  },
+  "containerEnv": {
+    "SUPABASE_URL": "${localEnv:SUPABASE_URL}",
+    "SUPABASE_ANON_KEY": "${localEnv:SUPABASE_ANON_KEY}"
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "remoteUser": "node"
+}
