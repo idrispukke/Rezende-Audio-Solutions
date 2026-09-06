@@ -1,0 +1,22 @@
+# Build and publish image to GHCR on push to main
+name: Release
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+      - name: Build and push
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/rezende-backend:latest
+          docker build -t $IMAGE -f backend/Dockerfile backend
+          docker push $IMAGE
