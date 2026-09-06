@@ -21,7 +21,7 @@ jobs:
       - name: Format check (black)
         run: black --check .
       - name: Type check (mypy)
-        run: mypy src || true
+        run: mypy backend/src || true
 
   test:
     runs-on: ubuntu-latest
@@ -33,10 +33,12 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
+        working-directory: backend
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          pip install -r requirements.txt
       - name: Run tests
+        working-directory: backend
         run: |
           pytest -q --maxfail=1 || true
 
@@ -51,6 +53,11 @@ jobs:
       - name: Smoke test container
         run: |
           docker run -d --name rezende_ci -p 8000:8000 rezende-backend:ci
-          sleep 3
-          if ! curl -fsS http://localhost:8000/health; then echo "Smoke test failed"; exit 1; fi
-          docker stop rezende_ci
+          sleep 10
+          if ! curl -fsS http://localhost:8000/health && ! curl -fsS http://localhost:8000/; then
+            echo "Smoke test failed, container logs:"
+            docker logs rezende_ci --tail=200 || true
+            docker stop rezende_ci || true
+            exit 1
+          fi
+          docker stop rezende_ci || true

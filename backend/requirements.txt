@@ -1,4 +1,4 @@
-# Dependências do backend (Python)
-# fastapi
-# uvicorn
-# supabase
+# Minimal runtime dependencies used by CI smoke-test
+fastapi
+uvicorn[standard]
+supabase
