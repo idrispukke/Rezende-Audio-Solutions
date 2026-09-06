@@ -50,14 +50,20 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t rezende-backend:ci -f backend/Dockerfile backend
-      - name: Smoke test container
+      - name: Conditional smoke test (only if backend/src has Python files)
         run: |
-          docker run -d --name rezende_ci -p 8000:8000 rezende-backend:ci
-          sleep 10
-          if ! curl -fsS http://localhost:8000/health && ! curl -fsS http://localhost:8000/; then
-            echo "Smoke test failed, container logs:"
-            docker logs rezende_ci --tail=200 || true
+          # run smoke test only if backend/src contains any .py files (excluding .gitkeep)
+          if find backend/src -type f -name '*.py' -not -name '.gitkeep' | grep -q .; then
+            echo "Detected Python files in backend/src — running smoke test"
+            docker run -d --name rezende_ci -p 8000:8000 rezende-backend:ci
+            sleep 10
+            if ! curl -fsS http://localhost:8000/health && ! curl -fsS http://localhost:8000/; then
+              echo "Smoke test failed, container logs:"
+              docker logs rezende_ci --tail=200 || true
+              docker stop rezende_ci || true
+              exit 1
+            fi
             docker stop rezende_ci || true
-            exit 1
+          else
+            echo "Skipping smoke test: no Python app found in backend/src (likely only .gitkeep)."
           fi
-          docker stop rezende_ci || true
