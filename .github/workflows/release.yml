@@ -1,8 +1,12 @@
-# Build and publish image to GHCR on push to main
 name: Release
 on:
   push:
     branches: [ main ]
+
+# Allow this workflow to push images to GHCR with the built-in token
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-publish:
@@ -14,7 +18,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         run: |
           IMAGE=ghcr.io/${{ github.repository_owner }}/rezende-backend:latest
